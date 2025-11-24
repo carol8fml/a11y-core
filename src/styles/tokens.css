@@ -1,0 +1,19 @@
+:root {
+  --a11y-black: #000000;
+  --a11y-white: #ffffff;
+  --a11y-gray-100: #f6f6f6;
+  --a11y-gray-200: #e2e2e2;
+  --a11y-gray-600: #545454;
+  --a11y-primary: var(--a11y-black);
+  --a11y-primary-hover: #333333;
+  --a11y-text-on-primary: var(--a11y-white);
+  --a11y-bg-surface: var(--a11y-white);
+  --a11y-text-main: var(--a11y-black);
+  --a11y-focus-ring: #276ef1;
+  --a11y-radius-sm: 4px;
+  --a11y-radius-none: 0px;
+  --a11y-radius: var(--a11y-radius-sm);
+  --a11y-font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --a11y-font-weight-medium: 500;
+  --a11y-font-weight-bold: 600;
+}
