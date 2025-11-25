@@ -1,7 +1,7 @@
 {
   "name": "@carol8fml/a11y-core",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A production-ready component library built with React and TypeScript, focusing on strict Web Accessibility (WCAG standards).",
   "keywords": [
     "design-system",
