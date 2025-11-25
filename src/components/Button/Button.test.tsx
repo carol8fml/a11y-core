@@ -6,17 +6,25 @@ import { Button } from './Button';
 expect.extend(toHaveNoViolations);
 
 describe('Component: Button', () => {
-  it('should render correctly', () => {
+  it('should render and be found by its accessible name', () => {
     render(<Button>Click me</Button>);
 
     const button = screen.getByRole('button', { name: /click me/i });
     expect(button).toBeInTheDocument();
   });
 
-  it('should have no accessibility violations', async () => {
+  it('should have no accessibility violations (default state)', async () => {
     const { container } = render(<Button>Accessible Button</Button>);
     const results = await axe(container);
 
+    expect(results).toHaveNoViolations();
+  });
+
+  it('should pass accessibility checks for outline variant', async () => {
+    const { container } = render(
+      <Button variant="outline">Outline Button</Button>,
+    );
+    const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
@@ -25,5 +33,12 @@ describe('Component: Button', () => {
 
     const button = screen.getByRole('button', { name: /disabled/i });
     expect(button).toBeDisabled();
+  });
+
+  it('should have no accessibility violations when disabled', async () => {
+    const { container } = render(<Button disabled>Disabled Button</Button>);
+
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
   });
 });
