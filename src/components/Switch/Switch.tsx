@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef, useId } from 'react';
 import { cn } from '../../utils/cn';
 import styles from './Switch.module.css';
 
@@ -11,7 +11,7 @@ export interface SwitchProps
   value?: string;
 }
 
-export const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
+export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(
   (
     {
       label,
@@ -25,10 +25,12 @@ export const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
     },
     ref,
   ) => {
+    const uniqueId = useId();
+    const labelId = label ? `${uniqueId}-label` : undefined;
+
     const toggle = () => {
-      if (!disabled) {
-        onCheckedChange?.(!checked);
-      }
+      if (disabled) return;
+      onCheckedChange?.(!checked);
     };
 
     return (
@@ -52,6 +54,7 @@ export const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
           type="button"
           role="switch"
           aria-checked={checked}
+          aria-labelledby={labelId}
           disabled={disabled}
           ref={ref}
           onClick={toggle}
@@ -61,7 +64,11 @@ export const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
           <span className={styles.thumb} />
         </button>
 
-        {label && <span className={styles.label}>{label}</span>}
+        {label && (
+          <span id={labelId} className={styles.label}>
+            {label}
+          </span>
+        )}
       </label>
     );
   },
