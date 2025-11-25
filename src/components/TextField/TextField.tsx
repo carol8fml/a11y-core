@@ -1,4 +1,4 @@
-import React, { useId } from 'react';
+import React, { useId, useState, forwardRef } from 'react';
 import { cn } from '../../utils/cn';
 import styles from './TextField.module.css';
 
@@ -9,13 +9,20 @@ export interface TextFieldProps
   helperText?: string;
 }
 
-export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
-  ({ label, error, helperText, className, id, ...props }, ref) => {
+export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
+  ({ label, error, helperText, className, id, type, ...props }, ref) => {
+    const isPasswordField = type === 'password';
+    const [showPassword, setShowPassword] = useState(false);
+    const inputType = isPasswordField
+      ? showPassword
+        ? 'text'
+        : 'password'
+      : type;
+
     const generatedId = useId();
     const inputId = id || generatedId;
     const errorId = `${inputId}-error`;
     const helperId = `${inputId}-helper`;
-
     const describedBy = error ? errorId : helperText ? helperId : undefined;
 
     return (
@@ -28,11 +35,24 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
           <input
             ref={ref}
             id={inputId}
+            type={inputType}
             aria-invalid={error ? 'true' : undefined}
             aria-describedby={describedBy}
             className={cn(styles.input, error && styles.errorInput)}
             {...props}
           />
+
+          {isPasswordField && (
+            <button
+              type="button"
+              className={styles.toggleButton}
+              onClick={() => setShowPassword((prev) => !prev)}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+              tabIndex={-1}
+            >
+              {showPassword ? '✕' : '◎'}
+            </button>
+          )}
         </div>
 
         {error && (
