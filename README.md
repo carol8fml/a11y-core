@@ -1,4 +1,4 @@
-# @carol8fml/a11y-core: Accessible Component Library 
+# Accessible Component Library ♿
 
 This package provides the core component library for a Web Accessibility-focused (WCAG) design system and automated code quality.
 
