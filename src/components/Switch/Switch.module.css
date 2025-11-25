@@ -21,16 +21,20 @@
   border-radius: 9999px;
   position: relative;
   border: 2px solid transparent;
-  transition: background-color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.1s ease;
   padding: 0;
   cursor: pointer;
   outline: none;
+
+  transform: translateZ(0);
 }
 
 .thumb {
   display: block;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   background-color: white;
   border-radius: 50%;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
@@ -38,18 +42,34 @@
   transform: translateX(2px);
 }
 
+.switchBase:focus-visible {
+  box-shadow:
+    0 0 0 2px var(--a11y-bg-surface),
+    0 0 0 4px var(--a11y-focus-ring);
+}
+
+.switchBase:hover:not([aria-checked='true']):not(:disabled) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.switchBase[aria-checked='true']:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.switchBase:active:not([aria-checked='true']):not(:disabled) .thumb {
+  transform: scale(1.2) translateX(2px);
+}
+
+.switchBase[aria-checked='true']:active:not(:disabled) .thumb {
+  transform: translateX(22px) scale(1.2);
+}
+
 .switchBase[aria-checked='true'] {
   background-color: var(--a11y-black);
 }
 
 .switchBase[aria-checked='true'] .thumb {
-  transform: translateX(22px);
-}
-
-.switchBase:focus-visible {
-  box-shadow:
-    0 0 0 2px var(--a11y-bg-surface),
-    0 0 0 4px var(--a11y-focus-ring);
+  transform: translateX(24px);
 }
 
 .container[aria-disabled='true'] {
