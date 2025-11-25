@@ -28,7 +28,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
           <input
             ref={ref}
             id={inputId}
-            aria-invalid={!!error}
+            aria-invalid={error ? 'true' : undefined}
             aria-describedby={describedBy}
             className={cn(styles.input, error && styles.errorInput)}
             {...props}
