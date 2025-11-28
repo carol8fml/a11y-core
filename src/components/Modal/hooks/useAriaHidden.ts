@@ -10,7 +10,10 @@ const useAriaHidden = ({ isOpen, modalContainerRef }: UseAriaHiddenProps) => {
   useEffect(() => {
     if (!isOpen) return;
 
-    let hiddenElements: Array<{ element: HTMLElement; previousValue: string | null }> = [];
+    let hiddenElements: Array<{
+      element: HTMLElement;
+      previousValue: string | null;
+    }> = [];
 
     // Wait for the modal container to be rendered in the DOM (portal)
     const timeoutId = setTimeout(() => {
@@ -21,7 +24,10 @@ const useAriaHidden = ({ isOpen, modalContainerRef }: UseAriaHiddenProps) => {
       const modalContainer = modalContainerRef.current;
 
       hiddenElements = bodyChildren
-        .filter((child) => child !== modalContainer && !child.contains(modalContainer))
+        .filter(
+          (child) =>
+            child !== modalContainer && !child.contains(modalContainer),
+        )
         .map((child) => {
           const previousValue = child.getAttribute('aria-hidden');
           if (!previousValue || previousValue === 'false') {

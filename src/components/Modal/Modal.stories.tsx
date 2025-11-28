@@ -54,7 +54,10 @@ export const Default: Story = {
         </Button>
 
         <Modal.Root isOpen={isOpen} onClose={handleClose}>
-          <Modal.Content titleId={MODAL_TITLE_ID} showCloseButton={args.showCloseButton}>
+          <Modal.Content
+            titleId={MODAL_TITLE_ID}
+            showCloseButton={args.showCloseButton}
+          >
             <Modal.Header>
               <Modal.Title id={MODAL_TITLE_ID}>Modal Title</Modal.Title>
             </Modal.Header>

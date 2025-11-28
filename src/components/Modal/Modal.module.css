@@ -20,6 +20,12 @@
   cursor: pointer;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .overlay {
+    transition: none;
+  }
+}
+
 .content {
   position: relative;
   background-color: var(--a11y-bg-surface);
@@ -39,6 +45,12 @@
   transition:
     transform 0.3s ease,
     opacity 0.3s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .content {
+    transition: none;
+  }
 }
 
 .content:focus-visible {
@@ -90,6 +102,12 @@
   transition: all 0.2s ease;
   outline: none;
   white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footerButton {
+    transition: none;
+  }
 }
 
 .footerButton:hover {
@@ -145,6 +163,12 @@
   font-size: 1.5rem;
   z-index: 10;
   outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .closeButton {
+    transition: none;
+  }
 }
 
 .closeButton:hover {
