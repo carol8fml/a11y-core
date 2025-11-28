@@ -60,7 +60,7 @@ export const FormIntegration: Story = {
           backgroundColor: 'var(--a11y-bg-surface)',
           border: '1px solid var(--a11y-gray-200)',
           borderRadius: '12px',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
+          boxShadow: '0 4px 12px var(--a11y-shadow-sm)',
           display: 'flex',
           flexDirection: 'column',
           gap: '24px',

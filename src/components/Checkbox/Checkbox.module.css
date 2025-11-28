@@ -90,11 +90,11 @@
 }
 
 .checkbox.error {
-  border-color: #dc2626;
+  border-color: var(--a11y-error);
 }
 
 .checkbox.error:hover:not(.disabled) {
-  border-color: #b91c1c;
+  border-color: var(--a11y-error-hover);
 }
 
 .checkmark {
@@ -124,7 +124,7 @@
 .errorMessage {
   font-family: var(--a11y-font-family);
   font-size: 0.75rem;
-  color: #dc2626;
+  color: var(--a11y-error);
   margin-left: 28px;
   line-height: 1.4;
 }

@@ -15,7 +15,6 @@ const useAriaHidden = ({ isOpen, modalContainerRef }: UseAriaHiddenProps) => {
       previousValue: string | null;
     }> = [];
 
-    // Wait for the modal container to be rendered in the DOM (portal)
     const timeoutId = setTimeout(() => {
       if (!modalContainerRef.current) return;
 
@@ -39,7 +38,6 @@ const useAriaHidden = ({ isOpen, modalContainerRef }: UseAriaHiddenProps) => {
 
     return () => {
       clearTimeout(timeoutId);
-      // Restore previous aria-hidden values
       hiddenElements.forEach(({ element, previousValue }) => {
         if (previousValue === null) {
           element.removeAttribute('aria-hidden');

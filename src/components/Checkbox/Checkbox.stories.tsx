@@ -280,7 +280,7 @@ export const SelectAll: Story = {
           style={{
             marginTop: '16px',
             padding: '12px',
-            backgroundColor: '#f5f5f5',
+            backgroundColor: 'var(--a11y-gray-bg)',
             borderRadius: '4px',
             fontSize: '12px',
             fontFamily: 'var(--a11y-font-family)',

@@ -56,17 +56,17 @@
 }
 
 .errorInput {
-  border-color: #d93025;
+  border-color: var(--a11y-error);
 }
 .errorInput:focus-visible {
-  border-color: #d93025;
-  box-shadow: 0 0 0 1px #d93025;
+  border-color: var(--a11y-error);
+  box-shadow: 0 0 0 1px var(--a11y-error);
 }
 
 .errorMessage {
   font-family: var(--a11y-font-family);
   font-size: 0.75rem;
-  color: #d93025;
+  color: var(--a11y-error);
   margin-top: 4px;
   display: flex;
   align-items: center;

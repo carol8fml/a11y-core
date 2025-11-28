@@ -12,7 +12,7 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--a11y-overlay);
   backdrop-filter: blur(2px);
   transition:
     opacity 0.3s ease,
@@ -31,8 +31,8 @@
   background-color: var(--a11y-bg-surface);
   border-radius: var(--a11y-radius);
   box-shadow:
-    0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    0 20px 25px -5px var(--a11y-shadow-sm),
+    0 10px 10px -5px var(--a11y-shadow-lg);
   max-width: 500px;
   width: 100%;
   max-height: calc(100vh - var(--a11y-space-8));
@@ -55,8 +55,8 @@
 
 .content:focus-visible {
   box-shadow:
-    0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04),
+    0 20px 25px -5px var(--a11y-shadow-sm),
+    0 10px 10px -5px var(--a11y-shadow-lg),
     0 0 0 2px var(--a11y-bg-surface),
     0 0 0 4px var(--a11y-focus-ring);
 }
