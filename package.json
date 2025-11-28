@@ -42,7 +42,16 @@
     "format": "prettier --write \"./src/**/*.{ts,tsx,css,json,md}\"",
     "format:check": "prettier --check \"./src/**/*.{ts,tsx,css,json,md}\"",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,css,json,md}": [
+      "prettier --write"
+    ],
+    "*.{ts,tsx}": [
+      "eslint --fix --max-warnings 0"
+    ]
   },
   "peerDependencies": {
     "react": "^18.2.0",
@@ -73,8 +82,10 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "husky": "^9.1.7",
     "jest-axe": "^8.0.0",
     "jsdom": "^24.0.0",
+    "lint-staged": "^16.2.7",
     "prettier": "^3.2.5",
     "storybook": "^8.0.0",
     "typescript": "^5.3.3",

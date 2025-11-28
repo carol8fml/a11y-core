@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔍 Formatting staged files..."
+npx lint-staged
+
+echo "🧪 Running tests..."
+npm test
+
+if [ $? -ne 0 ]; then
+  echo "❌ Tests failed! Commit blocked."
+  exit 1
+fi
+
+echo "✅ All checks passed! Proceeding with commit..."
