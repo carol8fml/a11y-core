@@ -16,4 +16,11 @@
   --a11y-font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --a11y-font-weight-medium: 500;
   --a11y-font-weight-bold: 600;
+  --a11y-space-1: 4px;
+  --a11y-space-2: 8px;
+  --a11y-space-3: 12px;
+  --a11y-space-4: 16px;
+  --a11y-space-5: 20px;
+  --a11y-space-6: 24px;
+  --a11y-space-8: 32px;
 }
