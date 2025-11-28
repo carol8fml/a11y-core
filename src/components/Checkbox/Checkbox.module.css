@@ -1,0 +1,148 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--a11y-space-1);
+  width: fit-content;
+}
+
+.label {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--a11y-space-2);
+  cursor: pointer;
+  position: relative;
+}
+
+.labelDisabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.input {
+  position: absolute;
+  opacity: 0;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  border: 2px solid var(--a11y-gray-200);
+  border-radius: var(--a11y-radius-sm);
+  background-color: var(--a11y-bg-surface);
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.1s ease;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.checkbox::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: var(--a11y-radius-sm);
+  border: 2px solid transparent;
+  transition: border-color 0.1s ease;
+}
+
+.input:focus-visible + .checkbox::before {
+  border-color: var(--a11y-focus-ring);
+  box-shadow:
+    0 0 0 2px var(--a11y-bg-surface),
+    0 0 0 4px var(--a11y-focus-ring);
+}
+
+.checkbox.checked {
+  background-color: var(--a11y-primary);
+  border-color: var(--a11y-primary);
+  color: var(--a11y-text-on-primary);
+}
+
+.checkbox.indeterminate {
+  background-color: var(--a11y-primary);
+  border-color: var(--a11y-primary);
+  color: var(--a11y-text-on-primary);
+}
+
+.checkbox:hover:not(.disabled) {
+  border-color: var(--a11y-black);
+}
+
+.checkbox.checked:hover:not(.disabled),
+.checkbox.indeterminate:hover:not(.disabled) {
+  background-color: var(--a11y-primary-hover);
+  border-color: var(--a11y-primary-hover);
+}
+
+.checkbox.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.checkbox.error {
+  border-color: #dc2626;
+}
+
+.checkbox.error:hover:not(.disabled) {
+  border-color: #b91c1c;
+}
+
+.checkmark {
+  width: 12px;
+  height: 12px;
+  stroke-width: 2;
+  pointer-events: none;
+}
+
+.indeterminateMark {
+  font-size: 16px;
+  font-weight: var(--a11y-font-weight-bold);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+.labelText {
+  font-family: var(--a11y-font-family);
+  font-size: 0.875rem;
+  font-weight: var(--a11y-font-weight-medium);
+  color: var(--a11y-text-main);
+  line-height: 1.5;
+  user-select: none;
+}
+
+.errorMessage {
+  font-family: var(--a11y-font-family);
+  font-size: 0.75rem;
+  color: #dc2626;
+  margin-left: 28px;
+  line-height: 1.4;
+}
+
+.helperText {
+  font-family: var(--a11y-font-family);
+  font-size: 0.75rem;
+  color: var(--a11y-gray-600);
+  margin-left: 28px;
+  line-height: 1.4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .checkbox {
+    transition: none;
+  }
+
+  .checkbox::before {
+    transition: none;
+  }
+}
