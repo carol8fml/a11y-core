@@ -79,4 +79,23 @@ describe('Switch', () => {
 
     expect(mockOnCheckedChange).not.toHaveBeenCalled();
   });
+
+  it('should render the switch and pass axe accessibility checks (disabled state)', async () => {
+    const { container } = render(
+      <Switch
+        label="Disabled Switch"
+        checked={false}
+        onCheckedChange={mockOnCheckedChange}
+        disabled
+      />,
+    );
+
+    const switchElement = screen.getByRole('switch', {
+      name: 'Disabled Switch',
+    });
+    expect(switchElement).toBeDisabled();
+
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
 });

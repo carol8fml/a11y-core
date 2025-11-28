@@ -62,4 +62,49 @@ describe('Component: TextField', () => {
     const input = screen.getByLabelText('Locked Field');
     expect(input).toBeDisabled();
   });
+
+  it('should have no accessibility violations with error state', async () => {
+    const { container } = render(
+      <TextField label="Email" error="Email is required" />,
+    );
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
+  it('should have no accessibility violations with helper text', async () => {
+    const { container } = render(
+      <TextField label="Username" helperText="This is your public handle" />,
+    );
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
+  it('should have no accessibility violations when disabled', async () => {
+    const { container } = render(<TextField label="Locked Field" disabled />);
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
+  it('should have no accessibility violations for password field', async () => {
+    const { container } = render(
+      <TextField label="Password" type="password" />,
+    );
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
+  it('should have accessible password toggle button', async () => {
+    const { container } = render(
+      <TextField label="Password" type="password" />,
+    );
+
+    const toggleButton = screen.getByRole('button', {
+      name: /show password/i,
+    });
+    expect(toggleButton).toBeInTheDocument();
+    expect(toggleButton).toHaveAttribute('aria-label', 'Show password');
+
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
 });

@@ -41,4 +41,24 @@ describe('Component: Button', () => {
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
+
+  it('should pass accessibility checks for primary variant', async () => {
+    const { container } = render(
+      <Button variant="primary">Primary Button</Button>,
+    );
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
+  it('should pass accessibility checks for small size', async () => {
+    const { container } = render(<Button size="sm">Small Button</Button>);
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
+  it('should pass accessibility checks for medium size', async () => {
+    const { container } = render(<Button size="md">Medium Button</Button>);
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
 });
