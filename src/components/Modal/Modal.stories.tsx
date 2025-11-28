@@ -5,7 +5,14 @@ import { Button } from '../Button';
 
 const MODAL_TITLE_ID = 'example-dialog-title';
 
-const meta: Meta<typeof Modal.Root> = {
+interface StoryArgs {
+  showCloseButton: boolean;
+  showCancelButton: boolean;
+  showConfirmButton: boolean;
+  onClose: () => void;
+}
+
+const meta: Meta<StoryArgs> = {
   title: 'Core/Modal',
   component: Modal.Root,
   parameters: {
@@ -13,19 +20,30 @@ const meta: Meta<typeof Modal.Root> = {
   },
   tags: ['autodocs'],
   argTypes: {
-    isOpen: {
+    showCloseButton: {
       control: 'boolean',
-      description: 'Controls whether the modal is open or closed.',
+      description: 'Show/hide the close button (X) in the top right corner.',
+      defaultValue: true,
+    },
+    showCancelButton: {
+      control: 'boolean',
+      description: 'Show/hide the cancel button in the footer.',
+      defaultValue: true,
+    },
+    showConfirmButton: {
+      control: 'boolean',
+      description: 'Show/hide the confirm button in the footer.',
+      defaultValue: true,
     },
     onClose: { action: 'onClose called', table: { disable: true } },
   },
 };
 
 export default meta;
-type Story = StoryObj<typeof Modal.Root>;
+type Story = StoryObj<StoryArgs>;
 
 export const Default: Story = {
-  render: () => {
+  render: (args) => {
     const [isOpen, setIsOpen] = useState(false);
     const handleClose = () => setIsOpen(false);
 
@@ -36,7 +54,7 @@ export const Default: Story = {
         </Button>
 
         <Modal.Root isOpen={isOpen} onClose={handleClose}>
-          <Modal.Content titleId={MODAL_TITLE_ID}>
+          <Modal.Content titleId={MODAL_TITLE_ID} showCloseButton={args.showCloseButton}>
             <Modal.Header>
               <Modal.Title id={MODAL_TITLE_ID}>Modal Title</Modal.Title>
             </Modal.Header>
@@ -57,20 +75,33 @@ export const Default: Story = {
             </div>
 
             <Modal.Footer
-              cancelButton={{
-                label: 'Cancel',
-              }}
-              confirmButton={{
-                label: 'Confirm',
-                onClick: () => {
-                  alert('Action Confirmed!');
-                  handleClose();
-                },
-              }}
+              cancelButton={
+                args.showCancelButton
+                  ? {
+                      label: 'Cancel',
+                    }
+                  : { show: false }
+              }
+              confirmButton={
+                args.showConfirmButton
+                  ? {
+                      label: 'Confirm',
+                      onClick: () => {
+                        alert('Action Confirmed!');
+                        handleClose();
+                      },
+                    }
+                  : { show: false }
+              }
             />
           </Modal.Content>
         </Modal.Root>
       </>
     );
+  },
+  args: {
+    showCloseButton: true,
+    showCancelButton: true,
+    showConfirmButton: true,
   },
 };

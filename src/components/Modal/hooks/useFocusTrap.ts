@@ -16,7 +16,26 @@ const useFocusTrap = ({ isOpen, onClose, contentRef }: UseFocusTrapProps) => {
 
     if (isOpen && contentRef.current) {
       triggerRef.current = document.activeElement as HTMLElement | null;
-      contentRef.current.focus();
+
+      const focusableSelectors =
+        'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"]):not([disabled])';
+
+      const focusableElements = Array.from(
+        contentRef.current.querySelectorAll<HTMLElement>(focusableSelectors),
+      ).filter(
+        (el) =>
+          !el.hasAttribute('aria-hidden') &&
+          el.offsetParent !== null &&
+          !el.classList.contains('srOnly'),
+      );
+
+      if (focusableElements.length > 0) {
+        setTimeout(() => {
+          focusableElements[0]?.focus();
+        }, 0);
+      } else {
+        contentRef.current.focus();
+      }
 
       const scrollbarWidth = getScrollbarWidth();
       if (scrollbarWidth > 0) {

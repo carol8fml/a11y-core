@@ -1,5 +1,6 @@
 import { useEffect, RefObject } from 'react';
 
+/** Manages clicks outside of the modal */
 const useOnClickOutside = <T extends HTMLElement = HTMLElement>(
   ref: RefObject<T>,
   handler: (event: MouseEvent | TouchEvent) => void,

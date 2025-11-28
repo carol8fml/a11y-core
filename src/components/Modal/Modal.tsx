@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 
 import useFocusTrap from './hooks/useFocusTrap';
 import useOnClickOutside from './hooks/useOnClickOutside';
+import useAriaHidden from './hooks/useAriaHidden';
 
 import { cn } from '../../utils/cn';
 import styles from './Modal.module.css';
@@ -70,7 +71,14 @@ const ModalFooter = forwardRef<HTMLDivElement, ModalFooterProps>(
               <button
                 type="button"
                 className={styles.footerButton}
-                onClick={cancelButton?.onClick || onClose || (() => {})}
+                onClick={() => {
+                  if (cancelButton?.onClick) {
+                    cancelButton.onClick();
+                  }
+                  if (onClose) {
+                    onClose();
+                  }
+                }}
                 aria-label={cancelButton?.label || 'Cancel'}
                 title={cancelButton?.label || 'Cancel'}
               >
@@ -99,15 +107,27 @@ ModalFooter.displayName = 'ModalFooter';
 const ModalOverlay = forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { onClick?: () => void }
->(({ className, onClick, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(styles.overlay, className)}
-    aria-hidden="true"
-    onClick={onClick}
-    {...props}
-  />
-));
+>(({ className, onClick, ...props }, ref) => {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (onClick && (event.key === 'Enter' || event.key === ' ')) {
+      event.preventDefault();
+      onClick();
+    }
+  };
+
+  return (
+    <div
+      ref={ref}
+      className={cn(styles.overlay, className)}
+      onClick={onClick}
+      onKeyDown={onClick ? handleKeyDown : undefined}
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? -1 : undefined}
+      aria-label={onClick ? 'Dismiss modal' : undefined}
+      {...props}
+    />
+  );
+});
 ModalOverlay.displayName = 'ModalOverlay';
 
 const ModalContent = forwardRef<
@@ -132,13 +152,13 @@ const ModalContent = forwardRef<
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        aria-describedby={descriptionId}
+        aria-describedby={descriptionId || undefined}
         tabIndex={-1}
         className={cn(styles.content, className)}
         {...props}
       >
         {children}
-        {showCloseButton && onClose && (
+        {showCloseButton !== false && onClose && (
           <button
             type="button"
             aria-label="Close dialog"
@@ -157,6 +177,7 @@ ModalContent.displayName = 'ModalContent';
 
 const ModalRoot = ({ isOpen, onClose, children }: ModalRootProps) => {
   const contentRef = useRef<HTMLDivElement>(null);
+  const modalContainerRef = useRef<HTMLDivElement>(null);
 
   useFocusTrap({
     isOpen,
@@ -165,6 +186,11 @@ const ModalRoot = ({ isOpen, onClose, children }: ModalRootProps) => {
   });
 
   useOnClickOutside(contentRef, onClose);
+
+  useAriaHidden({
+    isOpen,
+    modalContainerRef: modalContainerRef as RefObject<HTMLElement>,
+  });
 
   if (!isOpen) return null;
 
@@ -204,7 +230,7 @@ const ModalRoot = ({ isOpen, onClose, children }: ModalRootProps) => {
   };
 
   return createPortal(
-    <div className={styles.modalContainer}>
+    <div ref={modalContainerRef} className={styles.modalContainer}>
       <ModalOverlay onClick={onClose} />
       {React.Children.map(children, handleCloseInjection)}
     </div>,
