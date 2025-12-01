@@ -85,14 +85,6 @@ describe('Component: TextField', () => {
     expect(results).toHaveNoViolations();
   });
 
-  it('should have no accessibility violations for password field', async () => {
-    const { container } = render(
-      <TextField label="Password" type="password" />,
-    );
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
-  });
-
   it('should have accessible password toggle button', async () => {
     const { container } = render(
       <TextField label="Password" type="password" />,
@@ -103,6 +95,126 @@ describe('Component: TextField', () => {
     });
     expect(toggleButton).toBeInTheDocument();
     expect(toggleButton).toHaveAttribute('aria-label', 'Show password');
+
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
+  describe('Password Toggle Keyboard Navigation', () => {
+    it('should toggle password visibility with Enter key', () => {
+      render(<TextField label="Password" type="password" />);
+
+      const toggleButton = screen.getByRole('button', {
+        name: /show password/i,
+      });
+      const input = screen.getByLabelText('Password') as HTMLInputElement;
+
+      expect(input.type).toBe('password');
+      toggleButton.focus();
+      fireEvent.keyDown(toggleButton, { key: 'Enter', code: 'Enter' });
+      expect(input.type).toBe('text');
+    });
+
+    it('should toggle password visibility with Space key', () => {
+      render(<TextField label="Password" type="password" />);
+
+      const toggleButton = screen.getByRole('button', {
+        name: /show password/i,
+      });
+      const input = screen.getByLabelText('Password') as HTMLInputElement;
+
+      expect(input.type).toBe('password');
+      toggleButton.focus();
+      fireEvent.keyDown(toggleButton, { key: ' ', code: 'Space' });
+      expect(input.type).toBe('text');
+    });
+
+    it('should update aria-label when password is visible', () => {
+      render(<TextField label="Password" type="password" />);
+
+      const toggleButton = screen.getByRole('button', {
+        name: /show password/i,
+      });
+      fireEvent.click(toggleButton);
+
+      expect(toggleButton).toHaveAttribute('aria-label', 'Hide password');
+    });
+  });
+
+  it('should have aria-errormessage when error is present', () => {
+    const errorMessage = 'Email is required.';
+    render(<TextField label="Email" error={errorMessage} />);
+
+    const input = screen.getByLabelText('Email');
+    const errorElement = screen.getByText(errorMessage);
+
+    expect(input).toHaveAttribute('aria-errormessage');
+    expect(input.getAttribute('aria-errormessage')).toBe(
+      errorElement.getAttribute('id'),
+    );
+  });
+
+  it('should have no accessibility violations with error + disabled', async () => {
+    const { container } = render(
+      <TextField label="Email" error="Email is required" disabled />,
+    );
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
+  it('should have no accessibility violations with helper text + disabled', async () => {
+    const { container } = render(
+      <TextField
+        label="Username"
+        helperText="This is your public handle"
+        disabled
+      />,
+    );
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
+  it('should have no accessibility violations for password field with error', async () => {
+    const { container } = render(
+      <TextField
+        label="Password"
+        type="password"
+        error="Password is required"
+      />,
+    );
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
+  it('should have no accessibility violations for password field when disabled', async () => {
+    const { container } = render(
+      <TextField label="Password" type="password" disabled />,
+    );
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
+  it('should have no accessibility violations for password field with helper text', async () => {
+    const { container } = render(
+      <TextField
+        label="Password"
+        type="password"
+        helperText="Must be at least 8 characters"
+      />,
+    );
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
+  it('should have no accessibility violations for password field with visible password', async () => {
+    const { container } = render(
+      <TextField label="Password" type="password" />,
+    );
+
+    const toggleButton = screen.getByRole('button', {
+      name: /show password/i,
+    });
+    fireEvent.click(toggleButton);
 
     const results = await axe(container);
     expect(results).toHaveNoViolations();

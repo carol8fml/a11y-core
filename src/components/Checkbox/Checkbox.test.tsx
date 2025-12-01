@@ -107,6 +107,108 @@ describe('Component: Checkbox', () => {
       const results = await axe(container);
       expect(results).toHaveNoViolations();
     });
+
+    it('should have no accessibility violations - checked + disabled', async () => {
+      const { container } = render(
+        <Checkbox
+          label="Checked disabled"
+          checked={true}
+          disabled
+          onCheckedChange={mockOnCheckedChange}
+        />,
+      );
+
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('should have no accessibility violations - indeterminate + disabled', async () => {
+      const { container } = render(
+        <Checkbox
+          label="Indeterminate disabled"
+          checked={false}
+          indeterminate={true}
+          disabled
+          onCheckedChange={mockOnCheckedChange}
+        />,
+      );
+
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('should have no accessibility violations - error + disabled', async () => {
+      const { container } = render(
+        <Checkbox
+          label="Error disabled"
+          checked={false}
+          error="Error message"
+          disabled
+          onCheckedChange={mockOnCheckedChange}
+        />,
+      );
+
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('should have no accessibility violations - checked + error', async () => {
+      const { container } = render(
+        <Checkbox
+          label="Checked with error"
+          checked={true}
+          error="Error message"
+          onCheckedChange={mockOnCheckedChange}
+        />,
+      );
+
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('should have no accessibility violations - checked + helper text', async () => {
+      const { container } = render(
+        <Checkbox
+          label="Checked with helper"
+          checked={true}
+          helperText="Helper text"
+          onCheckedChange={mockOnCheckedChange}
+        />,
+      );
+
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('should have no accessibility violations - indeterminate + error', async () => {
+      const { container } = render(
+        <Checkbox
+          label="Indeterminate with error"
+          checked={false}
+          indeterminate={true}
+          error="Error message"
+          onCheckedChange={mockOnCheckedChange}
+        />,
+      );
+
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('should have no accessibility violations - indeterminate + helper text', async () => {
+      const { container } = render(
+        <Checkbox
+          label="Indeterminate with helper"
+          checked={false}
+          indeterminate={true}
+          helperText="Helper text"
+          onCheckedChange={mockOnCheckedChange}
+        />,
+      );
+
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
   });
 
   describe('Functionality', () => {

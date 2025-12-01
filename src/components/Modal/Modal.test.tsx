@@ -138,6 +138,68 @@ describe('Component: Modal', () => {
       expect(results).toHaveNoViolations();
     });
 
+    it('should have no accessibility violations - modal without footer', async () => {
+      const onClose = vi.fn();
+      const { container } = render(
+        <Modal.Root isOpen={true} onClose={onClose}>
+          <Modal.Content titleId={MODAL_TITLE_ID}>
+            <Modal.Header>
+              <Modal.Title id={MODAL_TITLE_ID}>Test Modal</Modal.Title>
+            </Modal.Header>
+            <div>
+              <p>Modal content without footer</p>
+            </div>
+          </Modal.Content>
+        </Modal.Root>,
+      );
+
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('should have no accessibility violations - modal without header', async () => {
+      const onClose = vi.fn();
+      const { container } = render(
+        <Modal.Root isOpen={true} onClose={onClose}>
+          <Modal.Content titleId={MODAL_TITLE_ID}>
+            <h2 id={MODAL_TITLE_ID}>Title outside header</h2>
+            <div>
+              <p>Modal content without header component</p>
+            </div>
+            <Modal.Footer
+              cancelButton={{ label: 'Cancel' }}
+              confirmButton={{ label: 'Confirm', onClick: onClose }}
+            />
+          </Modal.Content>
+        </Modal.Root>,
+      );
+
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('should have no accessibility violations - modal with custom footer children', async () => {
+      const onClose = vi.fn();
+      const { container } = render(
+        <Modal.Root isOpen={true} onClose={onClose}>
+          <Modal.Content titleId={MODAL_TITLE_ID}>
+            <Modal.Header>
+              <Modal.Title id={MODAL_TITLE_ID}>Test Modal</Modal.Title>
+            </Modal.Header>
+            <div>
+              <p>Modal content</p>
+            </div>
+            <Modal.Footer>
+              <button type="button">Custom Button</button>
+            </Modal.Footer>
+          </Modal.Content>
+        </Modal.Root>,
+      );
+
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
     it('should have correct ARIA attributes on dialog', () => {
       const onClose = vi.fn();
       render(

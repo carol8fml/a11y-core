@@ -38,6 +38,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             type={inputType}
             aria-invalid={error ? 'true' : undefined}
             aria-describedby={describedBy}
+            aria-errormessage={error ? errorId : undefined}
             className={cn(styles.input, error && styles.errorInput)}
             {...props}
           />
@@ -47,8 +48,14 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
               type="button"
               className={styles.toggleButton}
               onClick={() => setShowPassword((prev) => !prev)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setShowPassword((prev) => !prev);
+                }
+              }}
               aria-label={showPassword ? 'Hide password' : 'Show password'}
-              tabIndex={-1}
+              tabIndex={0}
             >
               {showPassword ? '✕' : '◎'}
             </button>

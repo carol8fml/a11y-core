@@ -98,4 +98,41 @@ describe('Switch', () => {
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
+
+  it('should render the switch and pass axe accessibility checks (checked + disabled)', async () => {
+    const { container } = render(
+      <Switch
+        label="Disabled Checked Switch"
+        checked={true}
+        onCheckedChange={mockOnCheckedChange}
+        disabled
+      />,
+    );
+
+    const switchElement = screen.getByRole('switch', {
+      name: 'Disabled Checked Switch',
+    });
+    expect(switchElement).toBeDisabled();
+    expect(switchElement).toHaveAttribute('aria-checked', 'true');
+
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
+  it('should be accessible with only aria-label', async () => {
+    const { container } = render(
+      <Switch
+        aria-label="Toggle notifications"
+        checked={false}
+        onCheckedChange={mockOnCheckedChange}
+      />,
+    );
+    const switchElement = screen.getByRole('switch', {
+      name: /toggle notifications/i,
+    });
+    expect(switchElement).toBeInTheDocument();
+
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
 });
