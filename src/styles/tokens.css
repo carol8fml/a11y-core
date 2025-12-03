@@ -10,6 +10,12 @@
   --a11y-bg-surface: var(--a11y-white);
   --a11y-text-main: var(--a11y-black);
   --a11y-focus-ring: #276ef1;
+  --a11y-link-primary: var(--a11y-black);
+  --a11y-link-primary-hover: #333333;
+  --a11y-link-primary-active: #1a1a1a;
+  --a11y-link-secondary: var(--a11y-focus-ring);
+  --a11y-link-secondary-hover: #1e5cd8;
+  --a11y-link-secondary-active: #1a4fc4;
   --a11y-error: #dc2626;
   --a11y-error-hover: #b91c1c;
   --a11y-overlay: rgba(0, 0, 0, 0.5);

@@ -4,4 +4,5 @@ export * from './components/TextField';
 export * from './components/Switch';
 export * from './components/Modal';
 export * from './components/Checkbox';
+export * from './components/Link';
 export * from './utils/cn';

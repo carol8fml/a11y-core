@@ -1,0 +1,125 @@
+.base {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--a11y-space-1);
+  font-family: var(--a11y-font-family);
+  font-weight: var(--a11y-font-weight-medium);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+  border-radius: var(--a11y-radius-sm);
+}
+
+.base:focus-visible {
+  box-shadow:
+    0 0 0 2px var(--a11y-bg-surface),
+    0 0 0 4px var(--a11y-focus-ring);
+  outline: none;
+}
+
+.base:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.primary {
+  color: var(--a11y-link-primary);
+}
+
+.primary .linkText {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.primary:hover:not(:disabled) {
+  color: var(--a11y-link-primary-hover);
+}
+
+.primary:hover:not(:disabled) .linkText {
+  text-decoration: none;
+}
+
+.primary:active:not(:disabled) {
+  color: var(--a11y-link-primary-active);
+}
+
+.primary:visited:not(:disabled) {
+  color: var(--a11y-link-primary);
+}
+
+.secondary {
+  color: var(--a11y-link-secondary);
+}
+
+.secondary .linkText {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.secondary:hover:not(:disabled) {
+  color: var(--a11y-link-secondary-hover);
+}
+
+.secondary:hover:not(:disabled) .linkText {
+  text-decoration: none;
+}
+
+.secondary:active:not(:disabled) {
+  color: var(--a11y-link-secondary-active);
+}
+
+.secondary:visited:not(:disabled) {
+  color: var(--a11y-link-secondary);
+}
+
+.sm {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.md {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.linkText {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.externalIcon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  text-decoration: none !important;
+}
+
+.externalIcon svg {
+  width: 0.75em;
+  height: 0.75em;
+  vertical-align: middle;
+}
+
+.iconBefore {
+  margin-right: var(--a11y-space-1);
+  margin-left: 0;
+}
+
+.externalIcon:not(.iconBefore) {
+  margin-left: var(--a11y-space-1);
+  margin-right: 0;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
