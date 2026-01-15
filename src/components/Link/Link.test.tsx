@@ -374,10 +374,79 @@ describe('Component: Link', () => {
       ).not.toBeInTheDocument();
     });
 
+    it('should include screen reader text when externalLinkSrText is provided', () => {
+      const { container } = render(
+        <Link
+          href="https://example.com"
+          externalLinkSrText="(opens in new tab)"
+        >
+          External Link
+        </Link>,
+      );
+      const link = screen.getByRole('link');
+      expect(link).toHaveAttribute('target', '_blank');
+      const srOnly = container.querySelector('[class*="srOnly"]');
+      expect(srOnly).toBeInTheDocument();
+      expect(srOnly?.textContent).toContain('(opens in new tab)');
+    });
+
+    it('should not include screen reader text when externalLinkSrText is not provided', () => {
+      const { container } = render(
+        <Link href="https://example.com">External Link</Link>,
+      );
+      const srOnly = container.querySelector('[class*="srOnly"]');
+      expect(srOnly).not.toBeInTheDocument();
+    });
+
+    it('should not include screen reader text when aria-label is provided', () => {
+      const { container } = render(
+        <Link
+          href="https://example.com"
+          aria-label="Custom label"
+          externalLinkSrText="(opens in new tab)"
+        >
+          External
+        </Link>,
+      );
+      const link = screen.getByRole('link');
+      expect(link).toHaveAttribute('aria-label', 'Custom label');
+      const srOnly = container.querySelector('[class*="srOnly"]');
+      expect(srOnly).not.toBeInTheDocument();
+    });
+
+    it('should not include screen reader text when target is not _blank', () => {
+      const { container } = render(
+        <Link
+          href="https://example.com"
+          target="_self"
+          externalLinkSrText="(opens in new tab)"
+        >
+          External
+        </Link>,
+      );
+      const srOnly = container.querySelector('[class*="srOnly"]');
+      expect(srOnly).not.toBeInTheDocument();
+    });
+
+    it('should support custom screen reader text in different languages', () => {
+      const { container } = render(
+        <Link
+          href="https://example.com"
+          externalLinkSrText="(abre em nova aba)"
+        >
+          Link Externo
+        </Link>,
+      );
+      const srOnly = container.querySelector('[class*="srOnly"]');
+      expect(srOnly).toBeInTheDocument();
+      expect(srOnly?.textContent).toContain('(abre em nova aba)');
+    });
+
     it('should not include screen reader text for internal links', () => {
       const { container } = render(<Link href="/internal">Internal</Link>);
       const link = screen.getByRole('link');
       expect(link).not.toHaveAttribute('aria-label');
+      expect(link).not.toHaveAttribute('target');
       expect(
         container.querySelector('[class*="srOnly"]'),
       ).not.toBeInTheDocument();

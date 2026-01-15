@@ -27,6 +27,7 @@ export interface LinkProps
   externalIcon?: React.ReactNode;
   iconPosition?: 'before' | 'after';
   'aria-label'?: string;
+  externalLinkSrText?: string;
 }
 
 export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
@@ -43,6 +44,7 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
       externalIcon,
       iconPosition = 'after',
       'aria-label': ariaLabel,
+      externalLinkSrText,
       ...props
     },
     ref,
@@ -53,6 +55,8 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
     const linkTarget = isExternal ? target || '_blank' : target;
     const linkRel = isExternal ? rel || 'noopener noreferrer' : rel;
     const finalAriaLabel = ariaLabel || undefined;
+    const shouldShowSrText =
+      isExternal && linkTarget === '_blank' && !ariaLabel && externalLinkSrText;
 
     const iconElement =
       isExternal && externalIcon ? (
@@ -80,6 +84,9 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
         {iconPosition === 'before' && iconElement}
         <span className={styles.linkText}>{children}</span>
         {iconPosition === 'after' && iconElement}
+        {shouldShowSrText && (
+          <span className={styles.srOnly}> {externalLinkSrText}</span>
+        )}
       </a>
     );
   },
