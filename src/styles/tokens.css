@@ -18,6 +18,10 @@
   --a11y-link-secondary-active: #1a4fc4;
   --a11y-error: #dc2626;
   --a11y-error-hover: #b91c1c;
+  --a11y-success: #10b981;
+  --a11y-success-hover: #059669;
+  --a11y-warning: #f59e0b;
+  --a11y-warning-hover: #d97706;
   --a11y-overlay: rgba(0, 0, 0, 0.5);
   --a11y-shadow-sm: rgba(0, 0, 0, 0.1);
   --a11y-shadow-md: rgba(0, 0, 0, 0.2);
