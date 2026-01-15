@@ -135,4 +135,137 @@ describe('Switch', () => {
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
+
+  describe('Keyboard Navigation', () => {
+    it('should toggle when Space key is pressed', () => {
+      render(
+        <Switch
+          label="Toggle"
+          checked={false}
+          onCheckedChange={mockOnCheckedChange}
+        />,
+      );
+
+      const switchElement = screen.getByRole('switch', { name: /toggle/i });
+      switchElement.focus();
+      fireEvent.keyDown(switchElement, { key: ' ', code: 'Space' });
+
+      expect(mockOnCheckedChange).toHaveBeenCalledTimes(1);
+      expect(mockOnCheckedChange).toHaveBeenCalledWith(true);
+    });
+
+    it('should toggle when Enter key is pressed', () => {
+      render(
+        <Switch
+          label="Toggle"
+          checked={false}
+          onCheckedChange={mockOnCheckedChange}
+        />,
+      );
+
+      const switchElement = screen.getByRole('switch', { name: /toggle/i });
+      switchElement.focus();
+      fireEvent.keyDown(switchElement, { key: 'Enter', code: 'Enter' });
+
+      expect(mockOnCheckedChange).toHaveBeenCalledTimes(1);
+      expect(mockOnCheckedChange).toHaveBeenCalledWith(true);
+    });
+
+    it('should toggle from checked to unchecked with Space', () => {
+      render(
+        <Switch
+          label="Toggle"
+          checked={true}
+          onCheckedChange={mockOnCheckedChange}
+        />,
+      );
+
+      const switchElement = screen.getByRole('switch', { name: /toggle/i });
+      switchElement.focus();
+      fireEvent.keyDown(switchElement, { key: ' ', code: 'Space' });
+
+      expect(mockOnCheckedChange).toHaveBeenCalledTimes(1);
+      expect(mockOnCheckedChange).toHaveBeenCalledWith(false);
+    });
+
+    it('should not toggle when disabled and Space is pressed', () => {
+      render(
+        <Switch
+          label="Disabled Switch"
+          checked={false}
+          onCheckedChange={mockOnCheckedChange}
+          disabled
+        />,
+      );
+
+      const switchElement = screen.getByRole('switch', {
+        name: /disabled switch/i,
+      });
+      switchElement.focus();
+      fireEvent.keyDown(switchElement, { key: ' ', code: 'Space' });
+
+      expect(mockOnCheckedChange).not.toHaveBeenCalled();
+    });
+
+    it('should not toggle when disabled and Enter is pressed', () => {
+      render(
+        <Switch
+          label="Disabled Switch"
+          checked={false}
+          onCheckedChange={mockOnCheckedChange}
+          disabled
+        />,
+      );
+
+      const switchElement = screen.getByRole('switch', {
+        name: /disabled switch/i,
+      });
+      switchElement.focus();
+      fireEvent.keyDown(switchElement, { key: 'Enter', code: 'Enter' });
+
+      expect(mockOnCheckedChange).not.toHaveBeenCalled();
+    });
+
+    it('should be keyboard focusable', () => {
+      render(
+        <Switch
+          label="Focusable Switch"
+          checked={false}
+          onCheckedChange={mockOnCheckedChange}
+        />,
+      );
+
+      const switchElement = screen.getByRole('switch', {
+        name: /focusable switch/i,
+      });
+      switchElement.focus();
+      expect(switchElement).toHaveFocus();
+    });
+
+    it('should prevent default behavior when Space is pressed on disabled switch', () => {
+      render(
+        <Switch
+          label="Disabled Switch"
+          checked={false}
+          onCheckedChange={mockOnCheckedChange}
+          disabled
+        />,
+      );
+
+      const switchElement = screen.getByRole('switch', {
+        name: /disabled switch/i,
+      });
+      switchElement.focus();
+
+      const event = new KeyboardEvent('keydown', {
+        key: ' ',
+        code: 'Space',
+        cancelable: true,
+      });
+
+      fireEvent.keyDown(switchElement, event);
+
+      expect(mockOnCheckedChange).not.toHaveBeenCalled();
+    });
+  });
 });

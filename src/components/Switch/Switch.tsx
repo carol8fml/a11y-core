@@ -33,6 +33,18 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(
       onCheckedChange?.(!checked);
     };
 
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+      if (disabled) {
+        event.preventDefault();
+        return;
+      }
+
+      if (event.key === ' ' || event.key === 'Enter') {
+        event.preventDefault();
+        toggle();
+      }
+    };
+
     return (
       <label
         className={cn(styles.container, className)}
@@ -58,6 +70,7 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(
           disabled={disabled}
           ref={ref}
           onClick={toggle}
+          onKeyDown={handleKeyDown}
           className={styles.switchBase}
           {...props}
         >

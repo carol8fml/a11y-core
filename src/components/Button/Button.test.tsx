@@ -74,28 +74,38 @@ describe('Component: Button', () => {
   });
 
   describe('Keyboard Navigation', () => {
-    it('should handle Enter key', () => {
-      const handleClick = vi.fn();
-      render(<Button onClick={handleClick}>Click me</Button>);
+    it('should be keyboard focusable', () => {
+      render(<Button>Focusable Button</Button>);
 
-      const button = screen.getByRole('button', { name: /click me/i });
+      const button = screen.getByRole('button', { name: /focusable button/i });
       button.focus();
-      fireEvent.keyDown(button, { key: 'Enter', code: 'Enter' });
-      fireEvent.click(button);
-
-      expect(handleClick).toHaveBeenCalledTimes(1);
+      expect(button).toHaveFocus();
     });
 
-    it('should handle Space key', () => {
-      const handleClick = vi.fn();
-      render(<Button onClick={handleClick}>Click me</Button>);
+    it('should receive Enter key events - HTML button natively activates on Enter', () => {
+      const handleKeyDown = vi.fn();
+      render(<Button onKeyDown={handleKeyDown}>Click me</Button>);
 
       const button = screen.getByRole('button', { name: /click me/i });
       button.focus();
-      fireEvent.keyDown(button, { key: ' ', code: 'Space' });
-      fireEvent.click(button);
 
-      expect(handleClick).toHaveBeenCalledTimes(1);
+      fireEvent.keyDown(button, { key: 'Enter', code: 'Enter' });
+
+      expect(handleKeyDown).toHaveBeenCalledTimes(1);
+      expect(button).toHaveFocus();
+    });
+
+    it('should receive Space key events - HTML button natively activates on Space', () => {
+      const handleKeyDown = vi.fn();
+      render(<Button onKeyDown={handleKeyDown}>Click me</Button>);
+
+      const button = screen.getByRole('button', { name: /click me/i });
+      button.focus();
+
+      fireEvent.keyDown(button, { key: ' ', code: 'Space' });
+
+      expect(handleKeyDown).toHaveBeenCalledTimes(1);
+      expect(button).toHaveFocus();
     });
 
     it('should not trigger onClick when disabled and Enter is pressed', () => {
@@ -108,8 +118,29 @@ describe('Component: Button', () => {
 
       const button = screen.getByRole('button', { name: /disabled/i });
       button.focus();
-      fireEvent.keyDown(button, { key: 'Enter', code: 'Enter' });
+      fireEvent.keyPress(button, { key: 'Enter', code: 'Enter', charCode: 13 });
       expect(handleClick).not.toHaveBeenCalled();
+    });
+
+    it('should not trigger onClick when disabled and Space is pressed', () => {
+      const handleClick = vi.fn();
+      render(
+        <Button onClick={handleClick} disabled>
+          Disabled
+        </Button>,
+      );
+
+      const button = screen.getByRole('button', { name: /disabled/i });
+      button.focus();
+      fireEvent.keyPress(button, { key: ' ', code: 'Space', charCode: 32 });
+      expect(handleClick).not.toHaveBeenCalled();
+    });
+
+    it('should have correct tabIndex behavior - buttons are naturally focusable', () => {
+      render(<Button>Tab Navigation</Button>);
+
+      const button = screen.getByRole('button', { name: /tab navigation/i });
+      expect(button).not.toHaveAttribute('tabIndex');
     });
 
     it('should be accessible with only aria-label', async () => {
