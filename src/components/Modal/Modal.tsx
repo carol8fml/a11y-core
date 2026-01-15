@@ -11,6 +11,7 @@ import styles from './Modal.module.css';
 export interface ModalRootProps extends React.HTMLAttributes<HTMLDivElement> {
   isOpen: boolean;
   onClose: () => void;
+  overlayAriaLabel?: string;
 }
 export interface ModalContentProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -106,8 +107,11 @@ ModalFooter.displayName = 'ModalFooter';
 
 const ModalOverlay = forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & { onClick?: () => void }
->(({ className, onClick, ...props }, ref) => {
+  React.HTMLAttributes<HTMLDivElement> & {
+    onClick?: () => void;
+    'aria-label'?: string;
+  }
+>(({ className, onClick, 'aria-label': ariaLabel, ...props }, ref) => {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (onClick && (event.key === 'Enter' || event.key === ' ')) {
       event.preventDefault();
@@ -123,7 +127,7 @@ const ModalOverlay = forwardRef<
       onKeyDown={onClick ? handleKeyDown : undefined}
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? -1 : undefined}
-      aria-label={onClick ? 'Dismiss modal' : undefined}
+      aria-label={onClick ? ariaLabel || 'Close modal' : undefined}
       {...props}
     />
   );
@@ -175,7 +179,12 @@ const ModalContent = forwardRef<
 );
 ModalContent.displayName = 'ModalContent';
 
-const ModalRoot = ({ isOpen, onClose, children }: ModalRootProps) => {
+const ModalRoot = ({
+  isOpen,
+  onClose,
+  children,
+  overlayAriaLabel,
+}: ModalRootProps) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const modalContainerRef = useRef<HTMLDivElement>(null);
 
@@ -231,7 +240,7 @@ const ModalRoot = ({ isOpen, onClose, children }: ModalRootProps) => {
 
   return createPortal(
     <div ref={modalContainerRef} className={styles.modalContainer}>
-      <ModalOverlay onClick={onClose} />
+      <ModalOverlay onClick={onClose} aria-label={overlayAriaLabel} />
       {React.Children.map(children, handleCloseInjection)}
     </div>,
     document.body,

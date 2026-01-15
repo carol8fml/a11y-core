@@ -55,7 +55,6 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
                 }
               }}
               aria-label={showPassword ? 'Hide password' : 'Show password'}
-              tabIndex={0}
             >
               {showPassword ? '✕' : '◎'}
             </button>
