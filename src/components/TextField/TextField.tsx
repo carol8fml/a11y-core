@@ -7,10 +7,25 @@ export interface TextFieldProps
   label: string;
   error?: string;
   helperText?: string;
+  showPasswordLabel?: string;
+  hidePasswordLabel?: string;
 }
 
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
-  ({ label, error, helperText, className, id, type, ...props }, ref) => {
+  (
+    {
+      label,
+      error,
+      helperText,
+      className,
+      id,
+      type,
+      showPasswordLabel,
+      hidePasswordLabel,
+      ...props
+    },
+    ref,
+  ) => {
     const isPasswordField = type === 'password';
     const [showPassword, setShowPassword] = useState(false);
     const inputType = isPasswordField
@@ -54,7 +69,11 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
                   setShowPassword((prev) => !prev);
                 }
               }}
-              aria-label={showPassword ? 'Hide password' : 'Show password'}
+              aria-label={
+                showPassword
+                  ? hidePasswordLabel || 'Hide password'
+                  : showPasswordLabel || 'Show password'
+              }
             >
               {showPassword ? '✕' : '◎'}
             </button>

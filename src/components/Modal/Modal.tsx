@@ -18,6 +18,8 @@ export interface ModalContentProps
   titleId: string;
   descriptionId?: string;
   showCloseButton?: boolean;
+  closeButtonAriaLabel?: string;
+  closeButtonSrText?: string;
 }
 
 const ModalTitle = forwardRef<
@@ -50,11 +52,22 @@ export interface ModalFooterProps extends React.HTMLAttributes<HTMLDivElement> {
     show?: boolean;
   };
   onClose?: () => void;
+  defaultCancelLabel?: string;
+  defaultConfirmLabel?: string;
 }
 
 const ModalFooter = forwardRef<HTMLDivElement, ModalFooterProps>(
   (
-    { className, cancelButton, confirmButton, onClose, children, ...props },
+    {
+      className,
+      cancelButton,
+      confirmButton,
+      onClose,
+      children,
+      defaultCancelLabel,
+      defaultConfirmLabel,
+      ...props
+    },
     ref,
   ) => {
     const showCancel =
@@ -80,10 +93,12 @@ const ModalFooter = forwardRef<HTMLDivElement, ModalFooterProps>(
                     onClose();
                   }
                 }}
-                aria-label={cancelButton?.label || 'Cancel'}
-                title={cancelButton?.label || 'Cancel'}
+                aria-label={
+                  cancelButton?.label || defaultCancelLabel || 'Cancel'
+                }
+                title={cancelButton?.label || defaultCancelLabel || 'Cancel'}
               >
-                {cancelButton?.label || 'Cancel'}
+                {cancelButton?.label || defaultCancelLabel || 'Cancel'}
               </button>
             )}
             {showConfirm && (
@@ -91,10 +106,12 @@ const ModalFooter = forwardRef<HTMLDivElement, ModalFooterProps>(
                 type="button"
                 className={cn(styles.footerButton, styles.footerButtonPrimary)}
                 onClick={confirmButton?.onClick || (() => {})}
-                aria-label={confirmButton?.label || 'Confirm'}
-                title={confirmButton?.label || 'Confirm'}
+                aria-label={
+                  confirmButton?.label || defaultConfirmLabel || 'Confirm'
+                }
+                title={confirmButton?.label || defaultConfirmLabel || 'Confirm'}
               >
-                {confirmButton?.label || 'Confirm'}
+                {confirmButton?.label || defaultConfirmLabel || 'Confirm'}
               </button>
             )}
           </>
@@ -124,10 +141,10 @@ const ModalOverlay = forwardRef<
       ref={ref}
       className={cn(styles.overlay, className)}
       onClick={onClick}
-      onKeyDown={onClick ? handleKeyDown : undefined}
-      role={onClick ? 'button' : undefined}
-      tabIndex={onClick ? -1 : undefined}
-      aria-label={onClick ? ariaLabel || 'Close modal' : undefined}
+      onKeyDown={onClick && ariaLabel ? handleKeyDown : undefined}
+      role={onClick && ariaLabel ? 'button' : undefined}
+      tabIndex={onClick && ariaLabel ? -1 : undefined}
+      aria-label={onClick && ariaLabel ? ariaLabel : undefined}
       {...props}
     />
   );
@@ -146,6 +163,8 @@ const ModalContent = forwardRef<
       descriptionId,
       showCloseButton = true,
       onClose,
+      closeButtonAriaLabel,
+      closeButtonSrText,
       ...props
     },
     ref,
@@ -165,12 +184,14 @@ const ModalContent = forwardRef<
         {showCloseButton !== false && onClose && (
           <button
             type="button"
-            aria-label="Close dialog"
+            aria-label={closeButtonAriaLabel || 'Close dialog'}
             className={styles.closeButton}
             onClick={onClose}
           >
             <span aria-hidden="true">×</span>
-            <span className={styles.srOnly}>Close</span>
+            <span className={styles.srOnly}>
+              {closeButtonSrText || 'Close'}
+            </span>
           </button>
         )}
       </div>

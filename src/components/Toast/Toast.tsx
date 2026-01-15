@@ -28,12 +28,16 @@ export interface ToastProps {
   toast: ToastType;
   position?: ToastPosition;
   onClose: (id: string) => void;
+  closeButtonAriaLabel?: string;
+  closeButtonSrText?: string;
 }
 
 const ToastComponent = ({
   toast,
   position = 'top-right',
   onClose,
+  closeButtonAriaLabel,
+  closeButtonSrText,
 }: ToastProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
@@ -136,10 +140,12 @@ const ToastComponent = ({
             type="button"
             className={styles.closeButton}
             onClick={handleClose}
-            aria-label="Close notification"
+            aria-label={closeButtonAriaLabel || 'Close notification'}
           >
             <span aria-hidden="true">×</span>
-            <span className={styles.srOnly}>Close</span>
+            <span className={styles.srOnly}>
+              {closeButtonSrText || 'Close'}
+            </span>
           </button>
         </div>
       </div>
@@ -180,12 +186,16 @@ export interface ToastContainerProps {
   toasts: ToastType[];
   position?: ToastPosition;
   onClose: (id: string) => void;
+  closeButtonAriaLabel?: string;
+  closeButtonSrText?: string;
 }
 
 export const ToastContainer: React.FC<ToastContainerProps> = ({
   toasts,
   position = 'top-right',
   onClose,
+  closeButtonAriaLabel,
+  closeButtonSrText,
 }) => {
   return (
     <>
@@ -195,6 +205,8 @@ export const ToastContainer: React.FC<ToastContainerProps> = ({
           toast={toast}
           position={position}
           onClose={onClose}
+          closeButtonAriaLabel={closeButtonAriaLabel}
+          closeButtonSrText={closeButtonSrText}
         />
       ))}
     </>
